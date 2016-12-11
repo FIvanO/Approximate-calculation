@@ -24,6 +24,8 @@ int main()
 {
     ios_base::sync_with_stdio(0);
 
+    #define L 15
+
 
 }
 
@@ -46,6 +48,51 @@ void outVal(double x, double f_F, double f_S, double dif, int it, int n1, int n2
     cout.width(L); cout<<n1;
     cout.width(L); cout<<n2<<endl;
 }
+
+double f_Sum(double x, int &n1, int &n2) //обчислення сумми
+{
+    const double eps = 10e-20;
+    double a = x;
+    double sinx = x;
+    double cosx = 1;
+    double chisl = x;
+    double znam = 1;
+    double d = x * x;
+
+    n1 = 0;
+
+    while(fabs(a) > eps)
+    {
+        n1 ++;
+        chisl *= d;
+        znam *= 2*n1 * (2 * n1 + 1);
+        a = chisl / znam;
+        if ( n1 % 2 == 1) a *= -1;
+        sinx += a;
+    }
+        cout << "sinMine(" << x << ") = " << sinx << endl;
+        cout << "sinLib(" << x << ") = " << sin(x) << endl;
+
+    a = 1;
+    chisl = 1;
+    znam = 1;
+    n2 = 0;
+
+    while(fabs(a) > eps)
+    {
+        n2 ++;
+        chisl *= d;
+        znam *= (2 * n2 - 1) * 2 * n2;
+        a = chisl / znam;
+        if ( n2 % 2 == 1) a *= -1;
+        cosx += a;
+    }
+        cout << "cosMine(" << x << ") = " << cosx << endl;
+        cout << "cosLib(" << x << ") = " << cos(x) << endl;
+
+    return sinx / cosx;
+}
+
 
 bool getX(double &x)
 {
