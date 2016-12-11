@@ -24,7 +24,17 @@ int main()
 {
     ios_base::sync_with_stdio(0);
 
+    double x;
+    int n1 = -2, n2 = -2, it = 0;
     #define L 15
+    while (getX(x))
+    {
+        double f_S = f_Sum(x, n1, n2);
+        double f_F = f_fract(x, it);
+        double dif = fabs(f_S - f_F);
+        outHead();
+        outVal(x, f_F, f_S, dif, it, n1, n2);
+    }
 
 
 }
@@ -93,6 +103,34 @@ double f_Sum(double x, int &n1, int &n2) //обчислення сумми
     return sinx / cosx;
 }
 
+double f_fract(double x, int &it) // обчислення ланц.
+{
+    const double eps = 1e-8;
+    double p = 3 * x;
+    double p1 = x;
+    double p2 = 3 * x;
+    double q = - x * x + 3;
+    double q1 = 1;
+    double q2 = - x * x + 3;
+    double a = - x * x;
+    double n = 0;
+    double b = 3;
+
+    it = 2;
+
+    while ( fabs( p2 / q2 - p1 / q1 ) > eps)
+    {
+        it ++;
+        b += 2;
+        p = b * p2 + a * p1;
+        q = b * q2 + a * q1;
+        p1 = p2;
+        q1 = q2;
+        p2 = p;
+        q2 = q;
+    }
+    return p / q;
+}
 
 bool getX(double &x)
 {
